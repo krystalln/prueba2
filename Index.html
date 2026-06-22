@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Inteligente v3 - Pizzería Artesanal PR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR: Historial de Campañas -->
+        <aside class="w-80 bg-stone-900 text-white p-6 flex flex-col justify-between hidden md:flex">
+            <div>
+                <h2 class="text-xl font-bold mb-6 text-amber-500">🍕 PizzaMarketing Pro v3</h2>
+                <h3 class="text-xs uppercase tracking-wider text-stone-400 font-semibold mb-3">Campañas Guardadas</h3>
+                <div id="campaignList" class="space-y-2 overflow-y-auto max-h-[70vh]">
+                    <p class="text-stone-500 text-sm italic">No hay campañas guardadas aún.</p>
+                </div>
+            </div>
+            <div class="border-t border-stone-700 pt-4 text-xs text-stone-400">
+                Target: 25-55 años | Campañas Hiper-Personalizadas
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+            
+            <!-- HEADER -->
+            <header class="mb-8 flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-stone-900">Consultor Contextual Dinámico</h1>
+                    <p class="text-stone-500 text-sm mt-1">Todo el contenido, el calendario y el valor añadido se adaptan en tiempo real a tus respuestas.</p>
+                </div>
+                <span class="bg-amber-100 text-amber-800 font-semibold px-4 py-2 rounded-full text-xs hidden sm:inline-block">🇵🇷 Motor Adaptativo 2026</span>
+            </header>
+
+            <!-- INPUT FORM -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm mb-8">
+                <h2 class="text-lg font-bold mb-4 text-stone-800 flex items-center gap-2">
+                    <span>🚀</span> Configuración de la Campaña
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Nombre de Campaña</label>
+                        <input id="campName" type="text" placeholder="Ej: Jueves de Salsa y Masa" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm focus:outline-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Producto a Incentivar</label>
+                        <input id="campProduct" type="text" placeholder="Ej: Pizza de Prosciutto y Hot Honey" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm focus:outline-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Oferta / Evento</label>
+                        <input id="campOffer" type="text" placeholder="Ej: 2x1 en Medallas / Música en vivo" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm focus:outline-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Tono de la Marca</label>
+                        <select id="campTone" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm focus:outline-amber-500">
+                            <option value="artesanal">Artesanal / Premium (Enfoque en procesos)</option>
+                            <option value="divertido">Divertido / Relajado (Jangueo de fin de semana)</option>
+                            <option value="familiar">Familiar / Afterwork (Para desconectar)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end gap-3">
+                    <button onclick="generateCampaign()" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all shadow-md shadow-amber-500/20">
+                        ⚡ Sincronizar y Generar Todo
+                    </button>
+                </div>
+            </section>
+
+            <!-- VALOR AÑADIDO: COMPORTAMIENTO ADAPTADO -->
+            <section id="valorAnadidoBlock" class="bg-amber-50 border border-amber-200 p-6 rounded-2xl mb-8 hidden">
+                <h3 class="font-bold text-amber-900 mb-1 flex items-center gap-2">
+                    💡 Valor Añadido: Comportamiento del Consumidor en PR aplicado a tu estrategia
+                </h3>
+                <p class="text-xs text-amber-800 mb-4">Estrategias psicológicas de venta optimizadas específicamente para mover tu oferta y producto.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-amber-950" id="behaviorGrid">
+                    <!-- Dinámico por JS -->
+                </div>
+            </section>
+
+            <!-- OUTPUT CONTAINER (DYNAMIC) -->
+            <div id="outputContainer" class="hidden space-y-8">
+                
+                <!-- REDES SOCIALES ESPECÍFICAS -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- TIKTOK -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-black">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-bold text-black uppercase tracking-wider text-sm">🎵 TikTok (Video Vertical)</span>
+                            <span class="bg-stone-100 text-stone-800 text-[10px] font-bold px-2 py-0.5 rounded">Alcance</span>
+                        </div>
+                        <div class="space-y-4 text-sm text-stone-700">
+                            <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                                <span class="text-xs font-bold text-stone-500 block mb-1">HOOK PERSONALIZADO:</span>
+                                <span id="ttHook" class="italic text-stone-900 font-medium"></span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-stone-500 block mb-1">CAPTION ALINEADO:</span>
+                                <p id="ttCaption" class="text-xs text-stone-600"></p>
+                            </div>
+                            <div class="bg-stone-50 p-3 rounded-lg text-xs">
+                                <strong>📸 Idea Visual TikTok:</strong>
+                                <p id="ttVisual" class="text-stone-600 mt-1 italic"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSTAGRAM -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-pink-500">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-bold text-pink-600 uppercase tracking-wider text-sm">📸 Instagram (Carrusel / Reel)</span>
+                            <span class="bg-pink-50 text-pink-700 text-[10px] font-bold px-2 py-0.5 rounded">Comunidad</span>
+                        </div>
+                        <div class="space-y-4 text-sm text-stone-700">
+                            <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                                <span class="text-xs font-bold text-stone-500 block mb-1">HOOK PERSONALIZADO:</span>
+                                <span id="igHook" class="italic text-stone-900 font-medium"></span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-stone-500 block mb-1">CAPTION ALINEADO:</span>
+                                <p id="igCaption" class="text-xs text-stone-600"></p>
+                            </div>
+                            <div class="bg-pink-50/40 p-3 rounded-lg text-xs">
+                                <strong>🎥 Idea Visual Instagram:</strong>
+                                <p id="igVisual" class="text-stone-600 mt-1 italic"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FACEBOOK -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-blue-600">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-bold text-blue-600 uppercase tracking-wider text-sm">👥 Facebook (Conversión)</span>
+                            <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">Ventas</span>
+                        </div>
+                        <div class="space-y-4 text-sm text-stone-700">
+                            <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                                <span class="text-xs font-bold text-stone-500 block mb-1">HOOK INFORMATIVO:</span>
+                                <span id="fbHook" class="italic text-stone-900 font-medium"></span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-stone-500 block mb-1">CAPTION ALINEADO:</span>
+                                <p id="fbCaption" class="text-xs text-stone-600"></p>
+                            </div>
+                            <div class="bg-blue-50/40 p-3 rounded-lg text-xs">
+                                <strong>🎯 Estrategia / Idea Visual:</strong>
+                                <p id="fbVisual" class="text-stone-600 mt-1 italic"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CALENDARIO MENSUAL COMPLETAMENTE INTERACTIVO -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-stone-900 flex items-center gap-2">
+                        📅 Calendario Mensual de Contenidos Integrado (100% Adaptativo)
+                    </h3>
+                    <p class="text-xs text-stone-500 mb-6">Cada semana utiliza tu producto e incentivo estructurados bajo un enfoque de conversión progresiva.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="calendarGrid">
+                        <!-- Semanas dinámicas -->
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT DE INTELIGENCIA CONTEXTUAL -->
+    <script>
+        let campaigns = JSON.parse(localStorage.getItem('pizza_campaigns_v3')) || [];
+
+        function init() {
+            renderCampaignList();
+        }
+
+        function generateCampaign() {
+            const name = document.getElementById('campName').value || "Especial de Temporada";
+            const product = document.getElementById('campProduct').value || "Pizza de la Casa";
+            const offer = document.getElementById('campOffer').value || "Promoción especial por tiempo limitado";
+            const tone = document.getElementById('campTone').value;
+
+            // 1. GENERACIÓN ADAPTATIVA DE REDES SOCIALES
+            const ttHook = `«Si eres profesional en PR y tu semana está pesada, necesitas ver cómo preparamos esto... 🤫🔥»`;
+            const ttCaption = `No dejes que el trabajo te consuma. Date la vuelta para probar nuestra ${product}. 🪵 Disfruta de nuestra atmósfera al aire libre con el incentivo de la semana: ${offer}. ¡Te lo mereces! 📍 ¡Te esperamos! #PizzaArtesanal #PuertoRico`;
+            const ttVisual = `Video de 11 segundos: Comienza con un primer plano (macro) de la superficie de la ${product} burbujeando de calor. Luego, la cámara sube rápidamente mostrando la brisa en los árboles del local, cerrando con una toma de la pizarra o counter donde se lee claramente el evento: ${offer}.`;
+
+            const igHook = `«La definición exacta de un plan premium al aire libre en Puerto Rico. ✨🍕»`;
+            const igCaption = `Diseñamos una experiencia culinaria rústica perfecta para el paladar exigente. Nuestra estrella de hoy es la ${product}, elaborada con procesos artesanales meticulosos. Acompáñala con nuestro ambiente y aprovecha: ${offer}. Reserva la fecha con tu corillo.`;
+            const igVisual = `Carrusel Estético: Slide 1 -> Foto cenital perfectamente iluminada con luz natural (hora dorada) de la ${product}. Slide 2 -> Video de 4 segundos del humo saliendo del horno de leña. Slide 3 -> Gráfica minimalista integrada con el branding de tu negocio anunciando los detalles de: ${offer}.`;
+
+            const fbHook = `«¿Buscando el mejor lugar al aire libre para tu próximo Afterwork o salida familiar en la isla?»`;
+            const fbCaption = `Olvídate del estrés, el parking incómodo y los espacios cerrados. Te ofrecemos una terraza fresca, música idónea y la espectacular ${product} hecha al momento. Ven y disfruta de nuestra activación especial: ${offer}. Detalles completos, dirección y horarios en el botón de abajo. 👇`;
+            const fbVisual = `Foto en Plano Medio que capture a un grupo de profesionales (25-55 años) sonriendo en las mesas exteriores, compartiendo bandejas de la ${product} y aprovechando el beneficio de ${offer}. Enfoque nítido en la experiencia social.`;
+
+            // Inyectar en inputs de redes
+            document.getElementById('ttHook').innerText = ttHook;
+            document.getElementById('ttCaption').innerText = ttCaption;
+            document.getElementById('ttVisual').innerText = ttVisual;
+
+            document.getElementById('igHook').innerText = igHook;
+            document.getElementById('igCaption').innerText = igCaption;
+            document.getElementById('igVisual').innerText = igVisual;
+
+            document.getElementById('fbHook').innerText = fbHook;
+            document.getElementById('fbCaption').innerText = fbCaption;
+            document.getElementById('fbVisual').innerText = fbVisual;
+
+            // 2. GENERACIÓN DEL BLOQUE: VALOR AÑADIDO POR COMPORTAMIENTO (PR)
+            const behaviorGrid = document.getElementById('behaviorGrid');
+            behaviorGrid.innerHTML = `
+                <div class="bg-white/60 p-4 rounded-xl border border-amber-200">
+                    <strong class="block text-amber-900 font-semibold mb-1">Psicología de Consumo Afterwork:</strong>
+                    El profesional de 25-55 años en Puerto Rico busca estatus y desconexión. Al promover la <strong>${product}</strong>, el gancho visual debe ser el 'premio' al esfuerzo de la semana. Usa <strong>${offer}</strong> como el detonante definitivo para que decidan desviarse hacia tu local en vez de ir a cocinar a casa.
+                </div>
+                <div class="bg-white/60 p-4 rounded-xl border border-amber-200">
+                    <strong class="block text-amber-900 font-semibold mb-1">Gatillo de Confort Local:</strong>
+                    A esta edad, el consumidor puertorriqueño detesta las complicaciones de logística. Asegúrate de que todo contenido visual de la campaña <strong>${name}</strong> deje claro (implícitamente en las fotos) que hay espacio amplio, mesas cómodas al aire libre y facilidad de acceso.
+                </div>
+                <div class="bg-white/60 p-4 rounded-xl border border-amber-200">
+                    <strong class="block text-amber-900 font-semibold mb-1">Conversión Basada en Datos:</strong>
+                    No vendas solo comida; vende el evento. Si el incentivo es <strong>${offer}</strong>, el comportamiento histórico dicta que los picos de interacción ocurren a las 11:00 AM y a las 4:30 PM. Satura tus historias en esos horarios mostrando la preparación de la <strong>${product}</strong>.
+                </div>
+            `;
+            document.getElementById('valorAnadidoBlock').classList.remove('hidden');
+
+            // 3. GENERACIÓN DEL CALENDARIO MENSUAL HIPER-CONTEXTUALIZADO
+            renderCalendarContextual(name, product, offer, tone);
+
+            // Mostrar el contenedor global de outputs
+            document.getElementById('outputContainer').classList.remove('hidden');
+
+            // Guardar campaña en LocalStorage
+            const campaignData = {
+                id: Date.now(), name, product, offer, tone,
+                ttHook, ttCaption, ttVisual, igHook, igCaption, igVisual, fbHook, fbCaption, fbVisual
+            };
+            campaigns.push(campaignData);
+            localStorage.setItem('pizza_campaigns_v3', JSON.stringify(campaigns));
+            renderCampaignList();
+        }
+
+        function renderCalendarContextual(name, product, offer, tone) {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const semanas = [
+                {
+                    num: "Semana 1 - Lanzamiento e Intriga",
+                    foco: `Introducir la campaña "${name}" y despertar deseo por el producto estrella.`,
+                    hook: `«Hay un ingrediente en nuestra nueva ${product} que cambia las reglas del juego...»`,
+                    caption: `Diseñada minuciosamente para quienes aprecian los procesos rústicos auténticos. Disfrútala al aire libre bajo las estrellas con nuestra experiencia: ${offer}. ¿A quién vas a traer para probarla primero?`,
+                    foto: `📸 **Idea de Foto:** Plano Macro de la masa de la ${product} elevándose en el horno, con chispas de la leña flotando de fondo de forma estética.`,
+                    video: `🎥 **Idea de Video:** Clip de 8 segundos en formato POV donde se ve el cortador dividiendo la pizza y el vapor caliente empaña ligeramente el lente, transmitiendo frescura absoluta.`
+                },
+                {
+                    num: "Semana 2 - Foco en el Beneficio Social",
+                    foco: `Asociar la ${product} con la desconexión del trabajo y el disfrute en la isla.`,
+                    hook: `«El antídoto perfecto para el 'burnout' de la oficina en Puerto Rico. 🌴🍻»`,
+                    caption: `Apaga la computadora. El plan perfecto para hoy combina la brisa de nuestra terraza, música ambiente en vivo y los sabores intensos de la ${product}. Además, activamos la promo ideal para ti: ${offer}.`,
+                    foto: `📸 **Idea de Foto:** Plano Medio de dos profesionales brindando relajadamente en las mesas exteriores, con una bandeja de ${product} en perfecto enfoque en el centro de la mesa.`,
+                    video: `🎥 **Idea de Video:** Transición rápida de ritmo: Empieza mostrando el reloj marcando las 5:00 PM (u hora de salida) y corta inmediatamente hacia la pizza artesanal siendo servida en la mesa exterior.`
+                },
+                {
+                    num: "Semana 3 - Prueba Social e Interactividad",
+                    foco: `Validar la campaña "${name}" usando la experiencia real de tus comensales actuales.`,
+                    hook: `«Lo que dicen los verdaderos fanáticos de la pizza artesanal cuando prueban esto... 👇»`,
+                    caption: `No lo decimos nosotros, lo dicen nuestros clientes corporativos y familiares que nos visitan cada semana. La textura de la ${product} combinada con el beneficio de ${offer} es sencillamente otra cosa. ¡Ven a comprobarlo hoy!`,
+                    foto: `📸 **Idea de Foto:** Foto del espacio exterior con una pizarra rústica de tiza escrita a mano que muestre un review real de un cliente o el menú resaltando tu especialidad.`,
+                    video: `🎥 **Idea de Video:** Clip vertical estilo entrevista corta o reacción natural de 5 segundos de un cliente sonriendo o asintiendo con la cabeza tras morder un pedazo crujiente de tu ${product}.`
+                },
+                {
+                    num: "Semana 4 - Urgencia y Cierre de Ciclo",
+                    foco: `Maximizar las ventas finales recordando el límite de tiempo de la oferta.`,
+                    hook: `«Últimos días para aprovechar esta combinación perfecta antes de que cambie el menú. 🚨»`,
+                    caption: `Si te quedaste con las ganas de la ${product}, esta es tu señal oficial para activarte. El incentivo especial de "${offer}" expira este fin de semana. ¡Dale tag al corillo y arranquen hoy mismo!`,
+                    foto: `📸 **Idea de Foto:** Foto artística tomada de noche mostrando la caja artesanal abierta sobre la mesa iluminada por guirnaldas, con un fondo oscuro y elegante.`,
+                    video: `🎥 **Idea de Video:** Un paneo rápido y continuo en reversa que empieza muy cerca del queso fundido de la ${product} y se aleja mostrando toda la atmósfera llena de comensales disfrutando de la música en vivo en el local.`
+                }
+            ];
+
+            semanas.forEach(s => {
+                grid.innerHTML += `
+                    <div class="border border-stone-200 p-5 rounded-xl bg-stone-50 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-amber-600 font-bold text-xs uppercase tracking-wider">${s.num}</span>
+                                <span class="bg-stone-200 text-stone-800 text-[9px] font-bold px-2 py-0.5 rounded uppercase">Estrategia Activa</span>
+                            </div>
+                            <p class="text-xs text-stone-700 font-semibold mb-2">🎯 Foco: <span class="font-normal text-stone-600">${s.foco}</span></p>
+                            
+                            <div class="space-y-2 mt-3 text-xs">
+                                <div class="bg-white p-2.5 rounded border border-stone-100">
+                                    <strong class="text-stone-500 block text-[10px] uppercase">Hook Dinámico:</strong>
+                                    <p class="italic font-medium text-stone-900">${s.hook}</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded border border-stone-100">
+                                    <strong class="text-stone-500 block text-[10px] uppercase">Caption Sugerido:</strong>
+                                    <p class="text-stone-600 text-[11px]">${s.caption}</p>
+                                </div>
+                                <div class="bg-amber-50/50 p-2.5 rounded border border-amber-100 text-amber-950 space-y-1">
+                                    <strong class="text-amber-800 block text-[10px] uppercase font-bold">📋 Dirección de Arte Visual Específica:</strong>
+                                    <p class="text-[11px]">${s.foto}</p>
+                                    <p class="text-[11px] mt-1">${s.video}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderCampaignList() {
+            const list = document.getElementById('campaignList');
+            if(campaigns.length === 0) {
+                list.innerHTML = '<p class="text-stone-500 text-sm italic">No hay campañas guardadas aún.</p>';
+                return;
+            }
+            list.innerHTML = '';
+            campaigns.forEach(c => {
+                list.innerHTML += `
+                    <button onclick="loadCampaign(${c.id})" class="w-full text-left p-2.5 rounded bg-stone-800 hover:bg-stone-700 text-xs transition-all flex flex-col gap-1 border-l-2 border-amber-500">
+                        <span class="font-semibold text-stone-200">${c.name}</span>
+                        <span class="text-stone-400 text-[10px] truncate">${c.product}</span>
+                    </button>
+                `;
+            });
+        }
+
+        function loadCampaign(id) {
+            const c = campaigns.find(item => item.id === id);
+            if(!c) return;
+
+            document.getElementById('campName').value = c.name;
+            document.getElementById('campProduct').value = c.product;
+            document.getElementById('campOffer').value = c.offer;
+            document.getElementById('campTone').value = c.tone;
+
+            document.getElementById('ttHook').innerText = c.ttHook;
+            document.getElementById('ttCaption').innerText = c.ttCaption;
+            document.getElementById('ttVisual').innerText = c.ttVisual;
+
+            document.getElementById('igHook').innerText = c.igHook;
+            document.getElementById('igCaption').innerText = c.igCaption;
+            document.getElementById('igVisual').innerText = c.igVisual;
+
+            document.getElementById('fbHook').innerText = c.fbHook;
+            document.getElementById('fbCaption').innerText = c.fbCaption;
+            document.getElementById('fbVisual').innerText = c.fbVisual;
+
+            renderCalendarContextual(c.name, c.product, c.offer, c.tone);
+            document.getElementById('outputContainer').classList.remove('hidden');
+        }
+
+        init();
+    </script>
+</body>
+</html>
